@@ -12,7 +12,6 @@ public class Pendulum : MonoBehaviour
     // to use next
     public float angleOfDisplacement;
 
-
     public GameObject pivot;
 
     bool moving = false;
@@ -21,22 +20,34 @@ public class Pendulum : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        body2d = GetComponent<Rigidbody2D>();
+        //body2d.angularVelocity = velocityThreshold;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Push();       
 
-        if (moving)
+        if (Input.GetKey("escape"))
         {
-            //transform.RotateAround(pivot.transform.position, Vector3.forward, 20 * Time.deltaTime);
+            Application.Quit();
         }
-        
     }
 
-    public void setPivot(GameObject p) {
-        pivot = p;
-        moving = true;
+  
+    // We tried to use unity hinge joint and rigidbody2D but didn't get the results wanted
+    void Push() {
+        if (transform.rotation.z > 0 && transform.rotation.z < rightPushRange
+            && body2d.angularVelocity > 0 && body2d.angularVelocity < velocityThreshold)
+        {
+            body2d.angularVelocity = velocityThreshold;
+        }
+        else if (transform.rotation.z < 0 && transform.rotation.z > leftPushRange
+            && body2d.angularVelocity < 0 && body2d.angularVelocity > velocityThreshold*-1)
+        {
+            body2d.angularVelocity = velocityThreshold*-1;
+        }
     }
+  
 }
