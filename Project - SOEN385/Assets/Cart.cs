@@ -5,12 +5,10 @@ using UnityEngine;
 public class Cart : MonoBehaviour
 {
     // for linear displacement
-    float M = 124; // mass of load
-    float m = 20; // mass of cart
+    float M = 1240f; // mass of load
+    float m = 2000f; // mass of cart
     float g = 10f; // gravitational force
     float F; // input force
-
-    float acceleration;
 
     bool moving = false;
 
@@ -27,7 +25,7 @@ public class Cart : MonoBehaviour
         return (((M * g * angle) + F) / (2 * m)) * (t * t);
     }
 
-    // Acceleration of cart function
+    // Acceleration of the cart function
     float a(float angle, float t) {
         return ((M * g * angle) / m) + (F / m);
     }
@@ -57,11 +55,17 @@ public class Cart : MonoBehaviour
 
             // Pendulum movement
             pendulum.transform.RotateAround(pivot.transform.position, Vector3.forward, Y(t) * Time.deltaTime);
-        }
-    }
 
-    public void setAngularValue(float newValue) {
-        transform.GetChild(0).GetComponent<Pendulum>().velocityThreshold = newValue;
+            // limit pendulum movement 
+            if (transform.rotation.z > 0 && transform.rotation.z < 100)
+            {
+
+            }
+            else if (transform.rotation.z < 0 && transform.rotation.z > 100)
+            {
+
+            }
+        }
     }
 
     public void startMovement(float input_force) {
